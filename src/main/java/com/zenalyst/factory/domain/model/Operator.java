@@ -120,9 +120,10 @@ public class Operator {
 
         for (Certification cert : certifications) {
             if (cert.isValidOn(onDate)) {
-                // If machine specifies a specific skill code, verify match or broad competence
+                // If machine specifies a specific skill code, verify exact match or broader technical qualification
                 boolean skillMatches = (reqSkill == null || reqSkill.isBlank() ||
-                        reqSkill.equalsIgnoreCase(cert.getSkillCode()));
+                        reqSkill.equalsIgnoreCase(cert.getSkillCode()) ||
+                        ("GENERAL_MACHINING".equalsIgnoreCase(reqSkill) && cert.getLevel().getRank() >= CertificationLevel.LEVEL_2_STANDARD.getRank()));
                 if (skillMatches && cert.getLevel().satisfies(reqLevel)) {
                     return true;
                 }

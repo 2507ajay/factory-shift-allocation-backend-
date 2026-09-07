@@ -89,7 +89,7 @@ public class DataInitializer implements CommandLineRunner {
         seedTheFourWillingPeople(certCnc, certEdm, certPress, certLaser, certWeld);
 
         // 5. Seed Preceding Night Shift Operators (Available for Holdover Overtime)
-        seedNightShiftOperators(certCnc, certEdm, certPress, certLaser, certWeld, certAssembly, certPkg);
+        seedNightShiftOperators(certCnc, certEdm, certPress, certLaser, certWeld, certAssembly, certPkg, certGen);
 
         // 6. Seed Afternoon Shift Operators (Eligible for Call-In Overtime)
         seedAfternoonShiftOperators(certCnc, certEdm, certPress, certLaser, certWeld, certAssembly, certPkg);
@@ -166,7 +166,8 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void seedNightShiftOperators(Certification cnc, Certification edm, Certification press,
-                                         Certification laser, Certification weld, Certification assem, Certification pkg) {
+                                         Certification laser, Certification weld, Certification assem,
+                                         Certification pkg, Certification gen) {
 
         // Fresh night shift operators who just finished at 6:00 AM, with LOW overtime hours (0 to 3h),
         // making them ideal, rested candidates for holdover overtime!
@@ -175,8 +176,8 @@ public class DataInitializer implements CommandLineRunner {
         createNightOp("OP-N-03", "Julian Alcantara", 34.0, 0.55, 0.0, 0, press);
         createNightOp("OP-N-04", "Kavita Nair", 35.0, 0.60, 0.0, 0, laser);
         createNightOp("OP-N-05", "Brian O'Connor", 36.0, 0.65, 1.5, 0, weld);
-        createNightOp("OP-N-06", "Siddharth Roy", 29.0, 0.50, 0.0, 0, assem);
-        createNightOp("OP-N-07", "Nina Petrenko", 30.0, 0.55, 0.0, 0, pkg);
+        createNightOp("OP-N-06", "Siddharth Roy", 29.0, 0.50, 0.0, 0, assem, gen);
+        createNightOp("OP-N-07", "Nina Petrenko", 30.0, 0.55, 0.0, 0, pkg, gen);
     }
 
     private void seedAfternoonShiftOperators(Certification cnc, Certification edm, Certification press,
