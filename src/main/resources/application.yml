@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: factory-machine-coverage
+  datasource:
+    url: jdbc:h2:mem:factorydb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Factory operational constraints and multi-objective optimization tuning
+factory:
+  policy:
+    # Hard legal & contractual limits
+    max-weekly-overtime-hours: 16.0
+    max-shift-duration-hours: 12.0
+    min-rest-hours-between-shifts: 8.0
+
+    # Human Fatigue & Burnout Safeguards (Combats the "Willing Four" overload)
+    burnout-warning-threshold: 0.65
+    burnout-critical-threshold: 0.85
+
+    # Compensation rates
+    standard-overtime-multiplier: 1.5
+    double-overtime-multiplier: 2.0
+
+    # Solver Optimization Objective Weights (Sum = 100.0)
+    # W_fairness: penalizes tapping overworked / willing operators repeatedly
+    # W_cost: penalizes higher OT wage impact
+    # W_experience: rewards familiarity and high efficiency on the specific machine
+    weights:
+      fairness: 45.0
+      cost: 30.0
+      experience: 25.0

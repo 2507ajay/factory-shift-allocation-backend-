@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenalyst AI - Factory Shift Machine Coverage Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation / Brand -->
+        <header class="top-nav">
+            <div class="brand">
+                <div class="brand-badge">ZENALYST AI</div>
+                <div class="brand-title">
+                    <h1>Who Runs The Machines Today</h1>
+                    <span class="subtext">Factory Floor Shift Coverage &amp; Anti-Burnout Dispatch Engine</span>
+                </div>
+            </div>
+            <div class="header-controls">
+                <div class="shift-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="time-label">05:45 AM Pre-Shift Roll Call</span>
+                    <span class="countdown-tag">Line Starts at 06:00 AM</span>
+                </div>
+                <div class="quick-links">
+                    <a href="/swagger-ui.html" target="_blank" class="nav-link" id="link-swagger">Swagger API Docs</a>
+                    <a href="/h2-console" target="_blank" class="nav-link" id="link-h2">H2 Database</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Command Action Bar -->
+        <section class="action-bar glass-panel">
+            <div class="action-group">
+                <div class="select-wrapper">
+                    <label for="shift-select">Target Shift:</label>
+                    <select id="shift-select">
+                        <option value="MORNING" selected>Morning Shift (06:00 - 14:00)</option>
+                        <option value="AFTERNOON">Afternoon Shift (14:00 - 22:00)</option>
+                        <option value="NIGHT">Night Shift (22:00 - 06:00)</option>
+                    </select>
+                </div>
+                <button class="btn btn-danger" id="btn-simulate-crisis" title="Simulate 5 morning operators not turning up at 5:45 AM">
+                    <span class="btn-icon">⚠️</span> Simulate 5:45 AM Crisis (5 No-Shows)
+                </button>
+                <button class="btn btn-primary" id="btn-solve-shift" title="Run the multi-objective optimization engine">
+                    <span class="btn-icon">⚡</span> Run Line Startup Solver
+                </button>
+                <button class="btn btn-secondary" id="btn-reset-baseline" title="Restore all operators to present and clear locks">
+                    <span class="btn-icon">🔄</span> Reset Floor to Baseline
+                </button>
+            </div>
+            <div class="status-summary-bar" id="status-summary-text">
+                Floor ready. Select an action or run the coverage engine.
+            </div>
+        </section>
+
+        <!-- Executive Metrics KPI Grid -->
+        <section class="kpi-grid">
+            <div class="kpi-card glass-panel" id="kpi-machines">
+                <div class="kpi-label">Machine Coverage</div>
+                <div class="kpi-value"><span id="metric-covered-count">18</span> / <span id="metric-total-count">18</span></div>
+                <div class="progress-track"><div class="progress-fill" id="metric-coverage-bar" style="width: 100%;"></div></div>
+                <div class="kpi-footnote" id="metric-coverage-desc">All 18 machines operational</div>
+            </div>
+            <div class="kpi-card glass-panel" id="kpi-cost">
+                <div class="kpi-label">Total Labor Cost (Shift)</div>
+                <div class="kpi-value" id="metric-total-cost">$4,860.00</div>
+                <div class="kpi-submetrics">
+                    <span class="tag-reg">Reg: <strong id="metric-regular-cost">$4,860.00</strong></span>
+                    <span class="tag-ot">OT: <strong id="metric-ot-cost">$0.00</strong></span>
+                </div>
+                <div class="kpi-footnote">Overtime strictly capped &amp; controlled</div>
+            </div>
+            <div class="kpi-card glass-panel" id="kpi-ot">
+                <div class="kpi-label">Overtime Dispatched</div>
+                <div class="kpi-value" id="metric-ot-hours">0.0 <small>hrs</small></div>
+                <div class="kpi-submetrics">
+                    <span class="compliance-badge badge-pass" id="badge-compliance">✓ Statutory Cap Compliant</span>
+                </div>
+                <div class="kpi-footnote">Max 16h weekly legal cap enforced</div>
+            </div>
+            <div class="kpi-card glass-panel" id="kpi-burnout">
+                <div class="kpi-label">Avg Fatigue &amp; Burnout Index</div>
+                <div class="kpi-value" id="metric-fatigue-score">0.18 <small>/ 1.0</small></div>
+                <div class="progress-track"><div class="progress-fill fill-burnout" id="metric-burnout-bar" style="width: 18%;"></div></div>
+                <div class="kpi-footnote">Anti-exploitation guard active</div>
+            </div>
+        </section>
+
+        <!-- The "Four Willing People" Anti-Burnout Protection Spotlight -->
+        <section class="burnout-spotlight glass-panel">
+            <div class="panel-header">
+                <div class="panel-title-wrap">
+                    <div class="panel-badge">CORE PROMPT REQUIREMENT</div>
+                    <h2>The "Four Willing People" Protection Radar</h2>
+                </div>
+                <p class="panel-desc">
+                    In regular factories, the same 4 versatile, cooperative operators end up covering every crisis and are quietly furious about it.
+                    Our engine mathematically penalizes their draft probability, shielding them from chronic burnout when other certified operators or rested floaters are available.
+                </p>
+            </div>
+            <div class="willing-operators-grid" id="willing-operators-container">
+                <!-- Dynamically injected via JS -->
+            </div>
+        </section>
+
+        <!-- Real-Life Factory Chaos & Triage Alerts Banner -->
+        <section class="triage-section" id="triage-container" style="display: none;">
+            <div class="triage-header">
+                <span class="triage-icon">🚨</span>
+                <span class="triage-title">Real-Life Incident &amp; Shortage Triage Log</span>
+            </div>
+            <div class="triage-list" id="triage-list">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- The 18 Factory Machines Grid (Organized by Production Cells) -->
+        <main class="machines-section">
+            <div class="section-title-bar">
+                <h2>Factory Line Status (18 Machines across 4 Production Cells)</h2>
+                <div class="legend">
+                    <span class="legend-item"><span class="dot dot-regular"></span> Primary Scheduled</span>
+                    <span class="legend-item"><span class="dot dot-onsite"></span> Cross-Trained Reallocation</span>
+                    <span class="legend-item"><span class="dot dot-holdover"></span> Holdover OT (Night Shift)</span>
+                    <span class="legend-item"><span class="dot dot-callin"></span> Call-In OT</span>
+                    <span class="legend-item"><span class="dot dot-override"></span> Supervisor Locked Pin</span>
+                    <span class="legend-item"><span class="dot dot-unassigned"></span> Idled / Shortage Triage</span>
+                </div>
+            </div>
+
+            <div class="cells-container" id="cells-container">
+                <!-- 4 Production Cells injected dynamically with all 18 machines -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <span>Zenalyst AI Backend Assessment — Q1. "Who runs the machines today"</span>
+                <span>Crafted in Java 17, Spring Boot 3, and Multi-Objective Fairness Optimization</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Supervisor Manual Override Modal -->
+    <div class="modal-overlay" id="override-modal" style="display: none;">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3>Supervisor Assignment Override</h3>
+                <button class="modal-close" id="btn-close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-instruction">
+                    Manually assign an operator to <strong id="modal-machine-label">M01 - 5-Axis CNC Alpha</strong> and optionally pin it.
+                    The solver will immediately re-balance the remaining 17 machines around your decision.
+                </p>
+                <div class="form-group">
+                    <label for="modal-operator-select">Select Candidate Operator:</label>
+                    <select id="modal-operator-select" class="form-control">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="modal-notes">Supervisor Reason / Work Order:</label>
+                    <input type="text" id="modal-notes" class="form-control" placeholder="e.g. Critical aerospace rush batch requiring senior lead" value="Supervisor priority work order">
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="modal-lock-pin" checked>
+                    <label for="modal-lock-pin">Lock / Pin this assignment (prevent auto-solver from moving this operator)</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-modal">Cancel</button>
+                <button class="btn btn-primary" id="btn-submit-override">Apply &amp; Re-Solve Floor</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
