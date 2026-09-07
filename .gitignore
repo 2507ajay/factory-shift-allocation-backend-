@@ -33,3 +33,6 @@ build/
 
 ### Log files ###
 *.log
+
+### Archives ###
+*.zip
